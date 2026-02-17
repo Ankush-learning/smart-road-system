@@ -1,9 +1,9 @@
-/* GLOBAL RESET */
+/* GLOBAL */
 
 body {
   margin: 0;
-  font-family: "Inter", "Segoe UI", sans-serif;
-  background: #f5f1ea;
+  font-family: "Inter", sans-serif;
+  background: #eae4da;
   color: #1f2937;
 }
 
@@ -19,21 +19,22 @@ body {
 }
 
 .logo {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
 }
 
 .nav-links button {
-  margin-left: 16px;
+  margin-left: 14px;
   padding: 8px 18px;
   border-radius: 6px;
   border: none;
-  cursor: pointer;
   font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s ease;
 }
 
 .nav-links button:first-child {
-  background: #ffffff;
+  background: white;
   color: #1f2937;
 }
 
@@ -42,107 +43,124 @@ body {
   color: white;
 }
 
-/* HERO CARD */
+/* HERO SECTION */
 
 .hero-wrapper {
   display: flex;
   justify-content: center;
-  padding: 80px 20px 40px;
+  padding: 60px 20px 20px; /* reduced bottom spacing */
 }
 
 .hero-card {
-  background: white;
-  max-width: 1000px;
+  background: #ffffff;
+  max-width: 900px;
   width: 100%;
-  padding: 60px 80px;
-  border-radius: 18px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  padding: 60px 70px;
+  border-radius: 16px; /* more square */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
   text-align: center;
 }
 
 .hero-card h1 {
-  font-size: 40px;
+  font-size: 38px;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .hero-card p {
-  font-size: 18px;
+  font-size: 16px;
+  font-weight: 400;
   color: #6b7280;
-  margin-bottom: 40px;
+  margin-bottom: 36px;
+  line-height: 1.6;
 }
 
 .hero-buttons {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 18px;
 }
 
 .primary-btn {
-  padding: 14px 28px;
+  padding: 12px 26px;
   background: #f97316;
   border: none;
   border-radius: 8px;
-  color: white;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
+  color: white;
   cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.primary-btn:hover {
+  background: #ea580c;
 }
 
 .secondary-btn {
-  padding: 14px 28px;
+  padding: 12px 26px;
   border: 2px solid #f97316;
   background: transparent;
   border-radius: 8px;
-  color: #f97316;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
+  color: #f97316;
   cursor: pointer;
+  transition: 0.2s ease;
 }
 
-/* FEATURE CARDS SECTION */
+.secondary-btn:hover {
+  background: rgba(249, 115, 22, 0.08); /* subtle background hover */
+}
+
+/* FEATURE CARDS */
 
 .cards-section {
   max-width: 1200px;
-  margin: 80px auto;
+  margin: 40px auto 100px; /* moved upward */
   padding: 0 40px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 30px;
+  gap: 28px;
 }
 
 .info-card {
-  background: white;
-  padding: 40px 30px;
+  background: #ffffff;
+  padding: 38px 28px;
   border-radius: 16px;
   text-align: center;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
-  transition: 0.3s ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s ease;
 }
 
 .info-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-5px);
+  background: #fff7ed; /* subtle orange tint */
 }
 
 .icon {
-  width: 60px;
-  height: 60px;
-  margin: 0 auto 24px;
+  width: 56px;
+  height: 56px;
   border-radius: 12px;
+  margin: 0 auto 22px;
 }
 
+/* ORANGE SYSTEM ONLY */
+
 .orange { background: #f97316; }
-.light-orange { background: #fdba74; }
-.dark-orange { background: #ea580c; }
+.soft-orange { background: #fdba74; }
+.deep-orange { background: #ea580c; }
 .beige { background: #f5d7b2; }
 
 .info-card h3 {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .info-card p {
   font-size: 14px;
+  font-weight: 400;
   color: #6b7280;
+  line-height: 1.5;
 }
