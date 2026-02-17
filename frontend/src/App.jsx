@@ -14,7 +14,6 @@ function Landing() {
 
   return (
     <div>
-      {/* NAVBAR */}
       <nav className="navbar">
         <div className="logo">Smart Road System</div>
         <div className="nav-links">
@@ -23,17 +22,12 @@ function Landing() {
         </div>
       </nav>
 
-      {/* HERO CARD */}
       <div className="hero-wrapper">
         <div className="hero-card">
-          <h1>
-            Smart Road Damage Reporting & Rapid Response
-          </h1>
-
+          <h1>Smart Road Damage Reporting & Rapid Response</h1>
           <p>
             Empowering Solapur Municipal Corporation with citizen-driven
-            reporting, optimized repair routing, and measurable sustainability
-            impact.
+            reporting, optimized repair routing, and measurable sustainability impact.
           </p>
 
           <div className="hero-buttons">
@@ -54,32 +48,34 @@ function Landing() {
         </div>
       </div>
 
-      {/* FEATURE CARDS */}
-     <section className="cards-section">
-  <div className="info-card">
-    <div className="icon orange"></div>
-    <h3>Live Damage Reporting</h3>
-    <p>Upload pothole images with automatic GPS tagging.</p>
-  </div>
+      <section className="cards-section">
+        <div className="info-card">
+          <div className="icon orange"></div>
+          <h3>Live Damage Reporting</h3>
+          <p>Upload pothole images with automatic GPS tagging.</p>
+        </div>
 
-  <div className="info-card">
-    <div className="icon soft-orange"></div>
-    <h3>Heatmap Visualization</h3>
-    <p>Authorities instantly see high-priority zones.</p>
-  </div>
+        <div className="info-card">
+          <div className="icon soft-orange"></div>
+          <h3>Heatmap Visualization</h3>
+          <p>Authorities instantly see high-priority zones.</p>
+        </div>
 
-  <div className="info-card">
-    <div className="icon deep-orange"></div>
-    <h3>Optimized Routing</h3>
-    <p>AI-based shortest path for fuel-efficient repairs.</p>
-  </div>
+        <div className="info-card">
+          <div className="icon deep-orange"></div>
+          <h3>Optimized Routing</h3>
+          <p>AI-based shortest path for fuel-efficient repairs.</p>
+        </div>
 
-  <div className="info-card">
-    <div className="icon beige"></div>
-    <h3>Before & After Verification</h3>
-    <p>Digital evidence ensures repair accountability.</p>
-  </div>
-</section>
+        <div className="info-card">
+          <div className="icon beige"></div>
+          <h3>Before & After Verification</h3>
+          <p>Digital evidence ensures repair accountability.</p>
+        </div>
+      </section>
+    </div>
+  );
+}
 
 /* ---------------- LOGIN ---------------- */
 
