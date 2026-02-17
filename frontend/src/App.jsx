@@ -13,17 +13,11 @@ function Landing() {
           A citizen-driven smart governance platform for rapid municipal response.
         </p>
         <div className="buttons">
-          <button
-            className="primary"
-            onClick={() => navigate("/login")}
-          >
+          <button className="primary" onClick={() => navigate("/login")}>
             Citizen Portal
           </button>
 
-          <button
-            className="secondary"
-            onClick={() => navigate("/admin-login")}
-          >
+          <button className="secondary" onClick={() => navigate("/admin-login")}>
             Municipal Dashboard
           </button>
         </div>
@@ -33,7 +27,7 @@ function Landing() {
 }
 
 function Login() {
-  return <h2 style={{textAlign:"center", marginTop:"100px"}}>Citizen Login Page</h2>;
+  return <h2 style={{ textAlign: "center", marginTop: "100px" }}>Citizen Login Page</h2>;
 }
 
 function AdminLogin() {
@@ -55,44 +49,26 @@ function AdminLogin() {
           Admin Login
         </h2>
 
-        <input
-          type="email"
-          placeholder="Email"
-          style={{
-            width: "100%",
-            padding: "10px",
-            marginBottom: "15px",
-            borderRadius: "6px",
-            border: "1px solid #ccc"
-          }}
-        />
+        <input type="email" placeholder="Email" />
+        <input type="password" placeholder="Password" />
 
-        <input
-          type="password"
-          placeholder="Password"
-          style={{
-            width: "100%",
-            padding: "10px",
-            marginBottom: "20px",
-            borderRadius: "6px",
-            border: "1px solid #ccc"
-          }}
-        />
-
-        <button
-          style={{
-            width: "100%",
-            padding: "12px",
-            background: "#f97316",
-            color: "white",
-            border: "none",
-            borderRadius: "6px",
-            cursor: "pointer"
-          }}
-        >
-          Login
-        </button>
+        <button>Login</button>
       </div>
     </div>
   );
 }
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
+
