@@ -55,34 +55,31 @@ function Landing() {
       </div>
 
       {/* FEATURE CARDS */}
-      <section className="cards-section">
-        <div className="info-card">
-          <div className="icon orange"></div>
-          <h3>Live Damage Reporting</h3>
-          <p>Upload pothole images with automatic GPS tagging.</p>
-        </div>
+     <section className="cards-section">
+  <div className="info-card">
+    <div className="icon orange"></div>
+    <h3>Live Damage Reporting</h3>
+    <p>Upload pothole images with automatic GPS tagging.</p>
+  </div>
 
-        <div className="info-card">
-          <div className="icon light-orange"></div>
-          <h3>Heatmap Visualization</h3>
-          <p>Authorities instantly see high-priority zones.</p>
-        </div>
+  <div className="info-card">
+    <div className="icon soft-orange"></div>
+    <h3>Heatmap Visualization</h3>
+    <p>Authorities instantly see high-priority zones.</p>
+  </div>
 
-        <div className="info-card">
-          <div className="icon dark-orange"></div>
-          <h3>Optimized Routing</h3>
-          <p>AI-based shortest path for fuel-efficient repairs.</p>
-        </div>
+  <div className="info-card">
+    <div className="icon deep-orange"></div>
+    <h3>Optimized Routing</h3>
+    <p>AI-based shortest path for fuel-efficient repairs.</p>
+  </div>
 
-        <div className="info-card">
-          <div className="icon beige"></div>
-          <h3>Before & After Verification</h3>
-          <p>Digital evidence ensures repair accountability.</p>
-        </div>
-      </section>
-    </div>
-  );
-}
+  <div className="info-card">
+    <div className="icon beige"></div>
+    <h3>Before & After Verification</h3>
+    <p>Digital evidence ensures repair accountability.</p>
+  </div>
+</section>
 
 /* ---------------- LOGIN ---------------- */
 
