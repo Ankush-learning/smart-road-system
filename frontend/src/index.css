@@ -8,21 +8,19 @@ body {
 }
 
 /* NAVBAR */
-
 .navbar {
-  background: #1f2937;
+  background: #f97316;   /* primary orange */
   padding: 18px 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: white;
 }
 
 .logo {
   font-size: 18px;
   font-weight: 600;
+  color: white;
 }
-
 .nav-links button {
   margin-left: 14px;
   padding: 8px 18px;
@@ -31,6 +29,22 @@ body {
   font-weight: 500;
   cursor: pointer;
   transition: 0.2s ease;
+}
+
+/* Citizen Button */
+.nav-links button:first-child {
+  background: white;
+  color: #f97316;
+}
+
+/* Admin Button */
+.nav-links button:last-child {
+  background: #ea580c;
+  color: white;
+}
+
+.nav-links button:hover {
+  opacity: 0.9;
 }
 
 .nav-links button:first-child {
