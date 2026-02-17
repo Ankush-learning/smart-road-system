@@ -24,7 +24,7 @@ function Landing() {
             Citizen
           </button>
 
-          <button onClick={() => navigate("/admin-login")}>
+          <button onClick={() => navigate("/login")}>
             Admin
           </button>
         </div>
@@ -49,44 +49,18 @@ function Landing() {
 
             <button
               className="secondary-btn"
-              onClick={() => navigate("/admin-login")}
+              onClick={() => navigate("/login")}
             >
               Municipal Dashboard
             </button>
           </div>
         </div>
       </div>
-
-      <section className="cards-section">
-        <div className="info-card">
-          <div className="icon orange"></div>
-          <h3>Live Damage Reporting</h3>
-          <p>Upload pothole images with automatic GPS tagging.</p>
-        </div>
-
-        <div className="info-card">
-          <div className="icon soft-orange"></div>
-          <h3>Heatmap Visualization</h3>
-          <p>Authorities instantly see high-priority zones.</p>
-        </div>
-
-        <div className="info-card">
-          <div className="icon deep-orange"></div>
-          <h3>Optimized Routing</h3>
-          <p>AI-based shortest path for fuel-efficient repairs.</p>
-        </div>
-
-        <div className="info-card">
-          <div className="icon beige"></div>
-          <h3>Before & After Verification</h3>
-          <p>Digital evidence ensures repair accountability.</p>
-        </div>
-      </section>
     </>
   );
 }
 
-/* ================= CITIZEN LOGIN ================= */
+/* ================= LOGIN ================= */
 
 function Login() {
   const navigate = useNavigate();
@@ -102,10 +76,8 @@ function Login() {
         password,
       });
 
-      // Save token
       localStorage.setItem("token", res.data.token);
 
-      // OPTIONAL: if backend sends role
       if (res.data.role === "ADMIN") {
         navigate("/admin");
       } else {
@@ -202,9 +174,7 @@ function CitizenDashboard() {
 
       <div style={{ padding: "60px" }}>
         <h2>Citizen Dashboard</h2>
-        <p style={{ marginTop: "20px" }}>
-          Map and damage reporting section will go here.
-        </p>
+        <p>Map and damage reporting section will go here.</p>
       </div>
     </>
   );
@@ -221,9 +191,7 @@ function AdminDashboard() {
 
       <div style={{ padding: "60px" }}>
         <h2>Admin Dashboard</h2>
-        <p style={{ marginTop: "20px" }}>
-          Heatmap and routing system will go here.
-        </p>
+        <p>Heatmap and routing system will go here.</p>
       </div>
     </>
   );
@@ -237,7 +205,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/citizen" element={<CitizenDashboard />} />
         <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
