@@ -21,7 +21,7 @@ function Landing() {
             Citizen
           </button>
 
-          <button onClick={() => navigate("/login")}>
+          <button onClick={() => navigate("/admin-login")}>
             Admin
           </button>
         </div>
@@ -46,7 +46,7 @@ function Landing() {
 
             <button
               className="secondary-btn"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/admin-login")}
             >
               Municipal Dashboard
             </button>
@@ -83,7 +83,7 @@ function Landing() {
   );
 }
 
-/* ================= LOGIN ================= */
+/* ================= CITIZEN LOGIN ================= */
 
 function Login() {
   const navigate = useNavigate();
@@ -101,7 +101,7 @@ function Login() {
       </nav>
 
       <div style={{ textAlign: "center", marginTop: "150px" }}>
-        <h2>Login Page</h2>
+        <h2>Citizen Login</h2>
 
         <div style={{ marginTop: "40px" }}>
           <button
@@ -111,14 +111,39 @@ function Login() {
               color: "white",
               border: "none",
               borderRadius: "8px",
-              marginRight: "15px",
               cursor: "pointer"
             }}
             onClick={() => navigate("/citizen")}
           >
             Login as Citizen (Demo)
           </button>
+        </div>
+      </div>
+    </>
+  );
+}
 
+/* ================= ADMIN LOGIN ================= */
+
+function AdminLogin() {
+  const navigate = useNavigate();
+
+  return (
+    <>
+      <nav className="navbar">
+        <div
+          className="logo"
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/")}
+        >
+          Smart Road System
+        </div>
+      </nav>
+
+      <div style={{ textAlign: "center", marginTop: "150px" }}>
+        <h2>Admin Login</h2>
+
+        <div style={{ marginTop: "40px" }}>
           <button
             style={{
               padding: "12px 24px",
@@ -184,6 +209,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/citizen" element={<CitizenDashboard />} />
         <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
