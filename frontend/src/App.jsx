@@ -13,44 +13,67 @@ function Landing() {
   const navigate = useNavigate();
 
   return (
-    <div className="landing">
-      <div className="hero">
-        <h1>Smart Road Damage Reporting</h1>
+    <div className="landing-container">
+      {/* NAVBAR */}
+      <nav className="navbar">
+        <div className="logo">Smart Road System</div>
+        <div className="nav-links">
+          <button onClick={() => navigate("/login")}>Citizen</button>
+          <button onClick={() => navigate("/admin-login")}>Admin</button>
+        </div>
+      </nav>
+
+      {/* HERO */}
+      <section className="hero-section">
+        <h1>Smart Road Damage Reporting & Rapid Response</h1>
         <p>
-          A citizen-powered digital governance platform enabling fast,
-          transparent and efficient municipal road maintenance.
+          Empowering Solapur Municipal Corporation with citizen-driven
+          reporting, optimized repair routing, and measurable sustainability impact.
         </p>
 
-        <div className="buttons">
-          <button className="primary" onClick={() => navigate("/login")}>
-            Citizen Portal
+        <div className="hero-buttons">
+          <button
+            className="primary-btn"
+            onClick={() => navigate("/login")}
+          >
+            Report Road Damage
           </button>
 
           <button
-            className="secondary"
+            className="secondary-btn"
             onClick={() => navigate("/admin-login")}
           >
             Municipal Dashboard
           </button>
         </div>
+      </section>
 
-        <div className="features">
-          <div className="feature-card">
-            <h3>📍 Real-Time Reporting</h3>
-            <p>Instantly report potholes with live location tracking.</p>
-          </div>
-
-          <div className="feature-card">
-            <h3>🗺 Interactive Map</h3>
-            <p>Visualize reported issues across the city dynamically.</p>
-          </div>
-
-          <div className="feature-card">
-            <h3>⚡ Fast Municipal Action</h3>
-            <p>Track, assign and resolve complaints efficiently.</p>
-          </div>
+      {/* FEATURES */}
+      <section className="cards-section">
+        <div className="info-card">
+          <div className="icon green"></div>
+          <h3>Live Damage Reporting</h3>
+          <p>Upload pothole images with automatic GPS tagging.</p>
         </div>
-      </div>
+
+        <div className="info-card">
+          <div className="icon blue"></div>
+          <h3>Heatmap Visualization</h3>
+          <p>Authorities see high-priority zones instantly.</p>
+        </div>
+
+        <div className="info-card">
+          <div className="icon orange"></div>
+          <h3>Optimized Routing</h3>
+          <p>AI-based shortest path for fuel-efficient repairs.</p>
+        </div>
+
+        <div className="info-card">
+          <div className="icon red"></div>
+          <h3>Before & After Verification</h3>
+          <p>Digital evidence ensures accountability.</p>
+        </div>
+      </section>
     </div>
   );
 }
