@@ -13,7 +13,7 @@ function Landing() {
   const navigate = useNavigate();
 
   return (
-    <div className="landing-container">
+    <div>
       {/* NAVBAR */}
       <nav className="navbar">
         <div className="logo">Smart Road System</div>
@@ -23,63 +23,66 @@ function Landing() {
         </div>
       </nav>
 
-      {/* HERO */}
+      {/* HERO CARD */}
       <div className="hero-wrapper">
-  <div className="hero-card">
-    <h1>
-      Smart Road Damage Reporting & Rapid Response
-    </h1>
+        <div className="hero-card">
+          <h1>
+            Smart Road Damage Reporting & Rapid Response
+          </h1>
 
-    <p>
-      Empowering Solapur Municipal Corporation with citizen-driven reporting,
-      optimized repair routing, and measurable sustainability impact.
-    </p>
+          <p>
+            Empowering Solapur Municipal Corporation with citizen-driven
+            reporting, optimized repair routing, and measurable sustainability
+            impact.
+          </p>
 
-    <div className="hero-buttons">
-      <button
-        className="primary-btn"
-        onClick={() => navigate("/login")}
-      >
-        Report Road Damage
-      </button>
+          <div className="hero-buttons">
+            <button
+              className="primary-btn"
+              onClick={() => navigate("/login")}
+            >
+              Report Road Damage
+            </button>
 
-      <button
-        className="secondary-btn"
-        onClick={() => navigate("/admin-login")}
-      >
-        Municipal Dashboard
-      </button>
+            <button
+              className="secondary-btn"
+              onClick={() => navigate("/admin-login")}
+            >
+              Municipal Dashboard
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* FEATURE CARDS */}
+      <section className="cards-section">
+        <div className="info-card">
+          <div className="icon orange"></div>
+          <h3>Live Damage Reporting</h3>
+          <p>Upload pothole images with automatic GPS tagging.</p>
+        </div>
+
+        <div className="info-card">
+          <div className="icon light-orange"></div>
+          <h3>Heatmap Visualization</h3>
+          <p>Authorities instantly see high-priority zones.</p>
+        </div>
+
+        <div className="info-card">
+          <div className="icon dark-orange"></div>
+          <h3>Optimized Routing</h3>
+          <p>AI-based shortest path for fuel-efficient repairs.</p>
+        </div>
+
+        <div className="info-card">
+          <div className="icon beige"></div>
+          <h3>Before & After Verification</h3>
+          <p>Digital evidence ensures repair accountability.</p>
+        </div>
+      </section>
     </div>
-  </div>
-</div>
-
-
-      {/* FEATURES */}
-<section className="cards-section">
-  <div className="info-card">
-    <div className="icon orange"></div>
-    <h3>Live Damage Reporting</h3>
-    <p>Upload pothole images with automatic GPS tagging.</p>
-  </div>
-
-  <div className="info-card">
-    <div className="icon light-orange"></div>
-    <h3>Heatmap Visualization</h3>
-    <p>Authorities instantly see high-priority zones.</p>
-  </div>
-
-  <div className="info-card">
-    <div className="icon dark-orange"></div>
-    <h3>Optimized Routing</h3>
-    <p>AI-based shortest path for fuel-efficient repairs.</p>
-  </div>
-
-  <div className="info-card">
-    <div className="icon beige"></div>
-    <h3>Before & After Verification</h3>
-    <p>Digital evidence ensures repair accountability.</p>
-  </div>
-</section>
+  );
+}
 
 /* ---------------- LOGIN ---------------- */
 
@@ -95,66 +98,9 @@ function Login() {
 
 function AdminLogin() {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      <div
-        style={{
-          background: "white",
-          padding: "40px",
-          borderRadius: "12px",
-          boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
-          width: "350px",
-        }}
-      >
-        <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
-          Admin Login
-        </h2>
-
-        <input
-          type="email"
-          placeholder="Email"
-          style={{
-            width: "100%",
-            padding: "10px",
-            marginBottom: "15px",
-            borderRadius: "6px",
-            border: "1px solid #ccc",
-          }}
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-          style={{
-            width: "100%",
-            padding: "10px",
-            marginBottom: "20px",
-            borderRadius: "6px",
-            border: "1px solid #ccc",
-          }}
-        />
-
-        <button
-          style={{
-            width: "100%",
-            padding: "12px",
-            background: "#f97316",
-            color: "white",
-            border: "none",
-            borderRadius: "6px",
-            cursor: "pointer",
-          }}
-        >
-          Login
-        </button>
-      </div>
-    </div>
+    <h2 style={{ textAlign: "center", marginTop: "100px" }}>
+      Admin Login Page
+    </h2>
   );
 }
 
