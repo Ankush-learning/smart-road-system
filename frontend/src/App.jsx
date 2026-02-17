@@ -1,30 +1,36 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-} from "react-router-dom";
-import "./index.css";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 
-/* ---------------- LANDING ---------------- */
+/* ================= LANDING ================= */
 
 function Landing() {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <>
       <nav className="navbar">
-        <div className="logo">Smart Road System</div>
+        <div
+          className="logo"
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/")}
+        >
+          Smart Road System
+        </div>
+
         <div className="nav-links">
-          <button onClick={() => navigate("/login")}>Citizen</button>
-          <button onClick={() => navigate("/admin-login")}>Admin</button>
+          <button onClick={() => navigate("/login")}>
+            Citizen
+          </button>
+
+          <button onClick={() => navigate("/login")}>
+            Admin
+          </button>
         </div>
       </nav>
 
       <div className="hero-wrapper">
         <div className="hero-card">
           <h1>Smart Road Damage Reporting & Rapid Response</h1>
+
           <p>
             Empowering Solapur Municipal Corporation with citizen-driven
             reporting, optimized repair routing, and measurable sustainability impact.
@@ -40,7 +46,7 @@ function Landing() {
 
             <button
               className="secondary-btn"
-              onClick={() => navigate("/admin-login")}
+              onClick={() => navigate("/login")}
             >
               Municipal Dashboard
             </button>
@@ -73,31 +79,104 @@ function Landing() {
           <p>Digital evidence ensures repair accountability.</p>
         </div>
       </section>
-    </div>
+    </>
   );
 }
 
-/* ---------------- LOGIN ---------------- */
+/* ================= LOGIN ================= */
 
 function Login() {
+  const navigate = useNavigate();
+
   return (
-    <h2 style={{ textAlign: "center", marginTop: "100px" }}>
-      Citizen Login Page
-    </h2>
+    <>
+      <nav className="navbar">
+        <div
+          className="logo"
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/")}
+        >
+          Smart Road System
+        </div>
+      </nav>
+
+      <div style={{ textAlign: "center", marginTop: "150px" }}>
+        <h2>Login Page</h2>
+
+        <div style={{ marginTop: "40px" }}>
+          <button
+            style={{
+              padding: "12px 24px",
+              background: "#f97316",
+              color: "white",
+              border: "none",
+              borderRadius: "8px",
+              marginRight: "15px",
+              cursor: "pointer"
+            }}
+            onClick={() => navigate("/citizen")}
+          >
+            Login as Citizen (Demo)
+          </button>
+
+          <button
+            style={{
+              padding: "12px 24px",
+              background: "#ea580c",
+              color: "white",
+              border: "none",
+              borderRadius: "8px",
+              cursor: "pointer"
+            }}
+            onClick={() => navigate("/admin")}
+          >
+            Login as Admin (Demo)
+          </button>
+        </div>
+      </div>
+    </>
   );
 }
 
-/* ---------------- ADMIN LOGIN ---------------- */
+/* ================= CITIZEN DASHBOARD ================= */
 
-function AdminLogin() {
+function CitizenDashboard() {
   return (
-    <h2 style={{ textAlign: "center", marginTop: "100px" }}>
-      Admin Login Page
-    </h2>
+    <>
+      <nav className="navbar">
+        <div className="logo">Smart Road System</div>
+      </nav>
+
+      <div style={{ padding: "60px" }}>
+        <h2>Citizen Dashboard</h2>
+        <p style={{ marginTop: "20px" }}>
+          Map and damage reporting section will go here.
+        </p>
+      </div>
+    </>
   );
 }
 
-/* ---------------- MAIN APP ---------------- */
+/* ================= ADMIN DASHBOARD ================= */
+
+function AdminDashboard() {
+  return (
+    <>
+      <nav className="navbar">
+        <div className="logo">Smart Road System</div>
+      </nav>
+
+      <div style={{ padding: "60px" }}>
+        <h2>Admin Dashboard</h2>
+        <p style={{ marginTop: "20px" }}>
+          Heatmap and routing system will go here.
+        </p>
+      </div>
+    </>
+  );
+}
+
+/* ================= MAIN APP ================= */
 
 function App() {
   return (
@@ -105,7 +184,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path="/citizen" element={<CitizenDashboard />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </Router>
   );
