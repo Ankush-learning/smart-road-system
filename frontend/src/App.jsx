@@ -1,3 +1,5 @@
+import API from "./api";
+import { useState } from "react";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 
@@ -89,6 +91,33 @@ function Landing() {
 function Login() {
   const navigate = useNavigate();
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      const res = await API.post("/auth/login", {
+        email,
+        password,
+      });
+
+      // Save token
+      localStorage.setItem("token", res.data.token);
+
+      // OPTIONAL: if backend sends role
+      if (res.data.role === "ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/citizen");
+      }
+
+    } catch (err) {
+      setError("Invalid credentials");
+      console.error(err);
+    }
+  };
+
   return (
     <>
       <nav className="navbar">
@@ -101,63 +130,61 @@ function Login() {
         </div>
       </nav>
 
-      <div style={{ textAlign: "center", marginTop: "150px" }}>
-        <h2>Citizen Login</h2>
+      <div style={{ textAlign: "center", marginTop: "120px" }}>
+        <h2>Login</h2>
 
-        <div style={{ marginTop: "40px" }}>
-          <button
+        <div style={{ marginTop: "30px" }}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             style={{
-              padding: "12px 24px",
+              padding: "10px",
+              width: "250px",
+              marginBottom: "15px",
+              borderRadius: "6px",
+              border: "1px solid #ccc"
+            }}
+          />
+
+          <br />
+
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={{
+              padding: "10px",
+              width: "250px",
+              marginBottom: "20px",
+              borderRadius: "6px",
+              border: "1px solid #ccc"
+            }}
+          />
+
+          <br />
+
+          <button
+            onClick={handleLogin}
+            style={{
+              padding: "12px 30px",
               background: "#f97316",
               color: "white",
               border: "none",
               borderRadius: "8px",
               cursor: "pointer"
             }}
-            onClick={() => navigate("/citizen")}
           >
-            Login as Citizen (Demo)
+            Login
           </button>
-        </div>
-      </div>
-    </>
-  );
-}
 
-/* ================= ADMIN LOGIN ================= */
-
-function AdminLogin() {
-  const navigate = useNavigate();
-
-  return (
-    <>
-      <nav className="navbar">
-        <div
-          className="logo"
-          style={{ cursor: "pointer" }}
-          onClick={() => navigate("/")}
-        >
-          Smart Road System
-        </div>
-      </nav>
-
-      <div style={{ textAlign: "center", marginTop: "150px" }}>
-        <h2>Admin Login</h2>
-
-        <div style={{ marginTop: "40px" }}>
-          <button
-            style={{
-              padding: "12px 24px",
-              background: "#ea580c",
-              color: "white",
-              border: "none",
-              borderRadius: "8px",
-              cursor: "pointer"
-            }}
-            onClick={() => navigate("/admin")}
-          >
-            Login as Admin (Demo)
-          </button>
+          {error && (
+            <p style={{ color: "red", marginTop: "15px" }}>
+              {error}
+            </p>
+          )}
         </div>
       </div>
     </>
