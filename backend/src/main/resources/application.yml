@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ${DATABASE_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: $jdbc:postgresql://dpg-d6a1r2kr85hc73dktgrg-a:5432/roadsystem
+    username: $roadsystem
+    password: $oN9IImZtFsVWOZjENn1428QFncmsg2FL
   jpa:
     hibernate:
       ddl-auto: update
@@ -10,9 +10,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 jwt:
-  secret: ${JWT_SECRET}
+  secret: $superlongrandomsecurejwtsecretkey123456789abcdef
   expiration: 86400000
 cloudinary:
-  cloud-name: ${CLOUDINARY_CLOUD_NAME}
-  api-key: ${CLOUDINARY_API_KEY}
-  api-secret: ${CLOUDINARY_API_SECRET}
+  cloud-name: $dgaq6fj40
+  api-key: $338265216481763
+  api-secret: $RnTU6JY2Ou8M9H4ICqO6aCAnkPQ
