@@ -24,13 +24,12 @@ function Landing() {
             Citizen
           </button>
 
-          <button onClick={() => navigate("/admin-login")}>
+          <button onClick={() => navigate("/login")}>
             Admin
           </button>
         </div>
       </nav>
 
-      {/* HERO SECTION */}
       <div className="hero-wrapper">
         <div className="hero-card">
           <h1>Smart Road Damage Reporting & Rapid Response</h1>
@@ -50,7 +49,7 @@ function Landing() {
 
             <button
               className="secondary-btn"
-              onClick={() => navigate("/admin-login")}
+              onClick={() => navigate("/login")}
             >
               Municipal Dashboard
             </button>
@@ -58,7 +57,6 @@ function Landing() {
         </div>
       </div>
 
-      {/* FEATURE CARDS */}
       <section className="cards-section">
         <div className="info-card">
           <div className="icon orange"></div>
@@ -87,7 +85,6 @@ function Landing() {
     </>
   );
 }
-
 
 /* ================= LOGIN ================= */
 
@@ -203,7 +200,9 @@ function CitizenDashboard() {
 
       <div style={{ padding: "60px" }}>
         <h2>Citizen Dashboard</h2>
-        <p>Map and damage reporting section will go here.</p>
+        <p style={{ marginTop: "20px" }}>
+          Map and damage reporting section will go here.
+        </p>
       </div>
     </>
   );
@@ -220,23 +219,15 @@ function AdminDashboard() {
 
       <div style={{ padding: "60px" }}>
         <h2>Admin Dashboard</h2>
-        <p>Heatmap and routing system will go here.</p>
+        <p style={{ marginTop: "20px" }}>
+          Heatmap and routing system will go here.
+        </p>
       </div>
     </>
   );
 }
 
 /* ================= MAIN APP ================= */
-function ProtectedRoute({ children }) {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    return <Navigate to="/login" />;
-  }
-
-  return children;
-}
-
 
 function App() {
   return (
@@ -244,23 +235,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
-    <Route
-  path="/citizen"
-  element={
-    <ProtectedRoute>
-      <CitizenDashboard />
-    </ProtectedRoute>
-  }
-/>
-
-<Route
-  path="/admin"
-  element={
-    <ProtectedRoute>
-      <AdminDashboard />
-    </ProtectedRoute>
-  }
-/>
+        <Route path="/citizen" element={<CitizenDashboard />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </Router>
   );
