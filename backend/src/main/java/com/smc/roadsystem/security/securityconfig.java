@@ -62,7 +62,7 @@ public class SecurityConfig {
 
         // Allow your Render frontend + local dev
         config.setAllowedOrigins(List.of(
-            "https://smart-road-frontend.onrender.com",  // ← update to your actual frontend URL
+            "https://smart-road-frontend1.onrender.com",  // ← update to your actual frontend URL
             "http://localhost:5173",
             "http://localhost:3000"
         ));
