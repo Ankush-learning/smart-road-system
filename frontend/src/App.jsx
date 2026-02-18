@@ -2,6 +2,8 @@ import API from "./api";
 import { useState } from "react";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from "react-router-dom";
+
 
 /* ================= LANDING ================= */
 
@@ -227,6 +229,16 @@ function AdminDashboard() {
 }
 
 /* ================= MAIN APP ================= */
+function ProtectedRoute({ children }) {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    return <Navigate to="/login" />;
+  }
+
+  return children;
+}
+
 
 function App() {
   return (
@@ -234,8 +246,23 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/citizen" element={<CitizenDashboard />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+    <Route
+  path="/citizen"
+  element={
+    <ProtectedRoute>
+      <CitizenDashboard />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin"
+  element={
+    <ProtectedRoute>
+      <AdminDashboard />
+    </ProtectedRoute>
+  }
+/>
       </Routes>
     </Router>
   );
