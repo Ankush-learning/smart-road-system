@@ -2,8 +2,6 @@ import API from "./api";
 import { useState } from "react";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
-import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from "react-router-dom";
-
 
 /* ================= LANDING ================= */
 
