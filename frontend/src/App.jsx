@@ -9,7 +9,7 @@ import CitizenDashboard from "./pages/CitizenDashboard";
 import AdminDashboard   from "./pages/AdminDashboard";
 
 function App() {
-  const { user, loading } = useAuth();
+  const { user, loading, login, register } = useAuth();
 
   return (
     <BrowserRouter>
@@ -23,7 +23,7 @@ function App() {
             user ? (
               <Navigate to={user.role === "ADMIN" ? "/admin" : "/citizen"} replace />
             ) : (
-              <Login />
+              <Login login={login} />
             )
           }
         />
@@ -34,7 +34,7 @@ function App() {
             user ? (
               <Navigate to={user.role === "ADMIN" ? "/admin" : "/citizen"} replace />
             ) : (
-              <Signup />
+              <Signup register={register} />
             )
           }
         />
