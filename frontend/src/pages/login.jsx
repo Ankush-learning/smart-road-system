@@ -1,10 +1,8 @@
-import { useState } from "react";
+import { useState } from "react"; 
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
 
-function Login() {
+function Login({ login }) {
   const navigate = useNavigate();
-  const { login } = useAuth();
 
   const [form, setForm]       = useState({ email: "", password: "" });
   const [error, setError]     = useState("");
@@ -48,7 +46,6 @@ function Login() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        {/* Logo */}
         <div className="auth-logo">
           <span className="auth-logo-icon">🛣️</span>
           <h1 className="auth-logo-text">RoadWatch</h1>
