@@ -1,47 +1,110 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import API from "../api";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 function Login() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { login } = useAuth();
 
-  const login = async () => {
+  const [form, setForm]       = useState({ email: "", password: "" });
+  const [error, setError]     = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setError("");
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (!form.email || !form.password) {
+      setError("Please fill in all fields.");
+      return;
+    }
+
+    setLoading(true);
+
     try {
-      const res = await API.post("/auth/login", { email, password });
-      localStorage.setItem("token", res.data.token);
-      navigate("/citizen");
+      const data = await login(form.email, form.password);
+
+      if (data.role === "ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/citizen");
+      }
     } catch (err) {
-      alert("Invalid credentials");
+      const message =
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        "Login failed. Please check your credentials.";
+      setError(message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-background">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-96">
-        <h2 className="text-2xl font-semibold mb-6 text-black">Login</h2>
+    <div className="auth-page">
+      <div className="auth-card">
+        {/* Logo */}
+        <div className="auth-logo">
+          <span className="auth-logo-icon">🛣️</span>
+          <h1 className="auth-logo-text">RoadWatch</h1>
+        </div>
 
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full mb-4 p-3 border rounded-lg"
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <h2 className="auth-title">Welcome back</h2>
+        <p className="auth-subtitle">Sign in to your account</p>
 
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full mb-6 p-3 border rounded-lg"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        {error && (
+          <div className="auth-error" role="alert">
+            <span>⚠️</span> {error}
+          </div>
+        )}
 
-        <button
-          onClick={login}
-          className="w-full bg-primary text-white py-3 rounded-lg"
-        >
-          Login
-        </button>
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="form-group">
+            <label htmlFor="email">Email address</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              placeholder="you@example.com"
+              value={form.email}
+              onChange={handleChange}
+              disabled={loading}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              placeholder="••••••••"
+              value={form.password}
+              onChange={handleChange}
+              disabled={loading}
+              required
+            />
+          </div>
+
+          <button type="submit" className="btn-primary auth-btn" disabled={loading}>
+            {loading ? <span className="btn-spinner" /> : "Sign in"}
+          </button>
+        </form>
+
+        <p className="auth-footer">
+          Don't have an account?{" "}
+          <Link to="/signup" className="auth-link">
+            Create one
+          </Link>
+        </p>
       </div>
     </div>
   );
