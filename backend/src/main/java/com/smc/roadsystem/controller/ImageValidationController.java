@@ -1,9 +1,9 @@
 package com.smc.roadsystem.controller;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -11,42 +11,39 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/citizen/reports")
-@RequiredArgsConstructor
 public class ImageValidationController {
 
-    @Value("${anthropic.api-key:}")
-    private String anthropicApiKey;
+    @Value("${gemini.api-key:}")
+    private String geminiApiKey;
 
     @PostMapping("/validate-image")
     public ResponseEntity<Map<String, Object>> validateImage(@RequestBody ImageValidationRequest request) {
         Map<String, Object> result = new HashMap<>();
 
-        if (anthropicApiKey == null || anthropicApiKey.isBlank()) {
+        if (geminiApiKey == null || geminiApiKey.isBlank()) {
             result.put("valid", true);
             result.put("message", "");
             return ResponseEntity.ok(result);
         }
 
         try {
-            RestTemplate restTemplate = new RestTemplate();
+            SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+            factory.setConnectTimeout(5000);
+            factory.setReadTimeout(8000);
+            RestTemplate restTemplate = new RestTemplate(factory);
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.set("x-api-key", anthropicApiKey);
-            headers.set("anthropic-version", "2023-06-01");
 
-            Map<String, Object> imageSource = new HashMap<>();
-            imageSource.put("type", "base64");
-            imageSource.put("media_type", request.getMimeType());
-            imageSource.put("data", request.getBase64());
+            Map<String, Object> imageData = new HashMap<>();
+            imageData.put("mime_type", request.getMimeType());
+            imageData.put("data", request.getBase64());
 
-            Map<String, Object> imageContent = new HashMap<>();
-            imageContent.put("type", "image");
-            imageContent.put("source", imageSource);
+            Map<String, Object> inlinePart = new HashMap<>();
+            inlinePart.put("inline_data", imageData);
 
-            Map<String, Object> textContent = new HashMap<>();
-            textContent.put("type", "text");
-            textContent.put("text",
+            Map<String, Object> textPart = new HashMap<>();
+            textPart.put("text",
                 "You are validating images for a road damage reporting system. " +
                 "Does this image show road damage such as a pothole, road crack, waterlogging, broken pavement, or similar infrastructure damage? " +
                 "Reply with ONLY a JSON object like: {\"valid\": true, \"message\": \"Image shows a pothole on a paved road.\"} " +
@@ -54,38 +51,38 @@ public class ImageValidationController {
                 "No other text, just the JSON."
             );
 
-            Map<String, Object> message = new HashMap<>();
-            message.put("role", "user");
-            message.put("content", List.of(imageContent, textContent));
+            Map<String, Object> content = new HashMap<>();
+            content.put("parts", List.of(inlinePart, textPart));
 
             Map<String, Object> body = new HashMap<>();
-            body.put("model", "claude-haiku-4-5-20251001");
-            body.put("max_tokens", 150);
-            body.put("messages", List.of(message));
+            body.put("contents", List.of(content));
+
+            String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + geminiApiKey;
 
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
-            ResponseEntity<Map> response = restTemplate.postForEntity(
-                "https://api.anthropic.com/v1/messages", entity, Map.class
-            );
+            ResponseEntity<Map> response = restTemplate.postForEntity(url, entity, Map.class);
 
             if (response.getBody() != null) {
-                List<Map<String, Object>> content = (List<Map<String, Object>>) response.getBody().get("content");
-                if (content != null && !content.isEmpty()) {
-                    String text = (String) content.get(0).get("text");
-                    // Parse JSON from response
-                    text = text.trim();
-                    if (text.startsWith("{")) {
-                        // simple parse
-                        boolean valid = text.contains("\"valid\": true") || text.contains("\"valid\":true");
-                        String msg = extractJsonString(text, "message");
-                        result.put("valid", valid);
-                        result.put("message", msg);
-                        return ResponseEntity.ok(result);
+                List<Map<String, Object>> candidates = (List<Map<String, Object>>) response.getBody().get("candidates");
+                if (candidates != null && !candidates.isEmpty()) {
+                    Map<String, Object> candidate = candidates.get(0);
+                    Map<String, Object> contentObj = (Map<String, Object>) candidate.get("content");
+                    List<Map<String, Object>> parts = (List<Map<String, Object>>) contentObj.get("parts");
+                    if (parts != null && !parts.isEmpty()) {
+                        String text = ((String) parts.get(0).get("text")).trim();
+                        text = text.replaceAll("```json", "").replaceAll("```", "").trim();
+                        if (text.startsWith("{")) {
+                            boolean valid = text.contains("\"valid\": true") || text.contains("\"valid\":true");
+                            String msg = extractJsonString(text, "message");
+                            result.put("valid", valid);
+                            result.put("message", msg);
+                            return ResponseEntity.ok(result);
+                        }
                     }
                 }
             }
         } catch (Exception e) {
-            // fail open — don't block upload if validation fails
+            System.err.println("Image validation error: " + e.getMessage());
         }
 
         result.put("valid", true);
