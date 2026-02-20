@@ -1,36 +1,66 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Landing from "./pages/Landing";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import CitizenDashboard from "./pages/CitizenDashboard";
-import AdminDashboard from "./pages/AdminDashboard";
-import Navbar from "./components/Navbar";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./hooks/useAuth";
 import ProtectedRoute from "./components/ProtectedRoute";
 
+import Landing          from "./pages/landing";
+import Login            from "./pages/login";
+import Signup           from "./pages/signup";
+import CitizenDashboard from "./pages/CitizenDashboard";
+import AdminDashboard   from "./pages/AdminDashboard";
+
 function App() {
+  const { user, loading } = useAuth();
+
   return (
     <BrowserRouter>
-      <Navbar />
       <Routes>
+        {/* Public */}
         <Route path="/" element={<Landing />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+
+        <Route
+          path="/login"
+          element={
+            user ? (
+              <Navigate to={user.role === "ADMIN" ? "/admin" : "/citizen"} replace />
+            ) : (
+              <Login />
+            )
+          }
+        />
+
+        <Route
+          path="/signup"
+          element={
+            user ? (
+              <Navigate to={user.role === "ADMIN" ? "/admin" : "/citizen"} replace />
+            ) : (
+              <Signup />
+            )
+          }
+        />
+
+        {/* Protected — Citizen */}
         <Route
           path="/citizen"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute user={user} loading={loading} allowedRoles={["CITIZEN", "ADMIN"]}>
               <CitizenDashboard />
             </ProtectedRoute>
           }
         />
+
+        {/* Protected — Admin only */}
         <Route
           path="/admin"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute user={user} loading={loading} allowedRoles={["ADMIN"]}>
               <AdminDashboard />
             </ProtectedRoute>
           }
         />
+
+        {/* Catch-all */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );
