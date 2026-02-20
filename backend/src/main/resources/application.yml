@@ -38,3 +38,6 @@ logging:
   level:
     com.smc.roadsystem: DEBUG
     org.springframework.security: INFO
+
+gemini:
+  api-key: ${GEMINI_API_KEY:}
