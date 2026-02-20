@@ -285,7 +285,7 @@ export default function CitizenDashboard() {
                         {imgStatus === "valid" && (
                           <div style={s.imgOk}>{imgMessage || "Image verified as road damage."}</div>
                         )}
-                        {preview && imgStatus !== "invalid" && (
+                        {preview && imgStatus === "valid" && (
                           <img src={preview} alt="preview" style={{ marginTop: 10, height: 100, borderRadius: 8, objectFit: "cover", width: "100%" }} />
                         )}
                       </div>
