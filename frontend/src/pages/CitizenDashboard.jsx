@@ -6,7 +6,6 @@ import API from "../api";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-// Fix leaflet default icon
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
@@ -15,17 +14,138 @@ L.Icon.Default.mergeOptions({
 });
 
 function LocationPicker({ onSelect }) {
-  useMapEvents({
-    click(e) { onSelect(e.latlng); }
-  });
+  useMapEvents({ click(e) { onSelect(e.latlng); } });
   return null;
 }
+
+const styles = {
+  page: {
+    minHeight: "100vh",
+    background: "#f1f5f9",
+    fontFamily: "'Inter', sans-serif",
+  },
+  nav: {
+    background: "#ffffff",
+    borderBottom: "1px solid #e2e8f0",
+    padding: "0 2rem",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    height: 64,
+    position: "sticky",
+    top: 0,
+    zIndex: 100,
+  },
+  navLeft: { display: "flex", alignItems: "center", gap: 10, cursor: "pointer" },
+  logoText: { fontWeight: 700, fontSize: 18, color: "#0f172a", letterSpacing: "-0.3px" },
+  badge: {
+    background: "#fff7ed", color: "#c2410c", fontSize: 10,
+    fontWeight: 700, padding: "2px 8px", borderRadius: 20,
+    letterSpacing: "0.5px", textTransform: "uppercase",
+  },
+  navRight: { display: "flex", alignItems: "center", gap: 16 },
+  greeting: { color: "#64748b", fontSize: 14 },
+  logoutBtn: {
+    background: "none", border: "1px solid #e2e8f0", borderRadius: 8,
+    padding: "6px 16px", cursor: "pointer", color: "#64748b",
+    fontSize: 13, fontFamily: "'Inter', sans-serif", fontWeight: 500,
+    transition: "all 0.15s",
+  },
+  tabs: {
+    background: "#ffffff",
+    borderBottom: "1px solid #e2e8f0",
+    padding: "0 2rem",
+    display: "flex",
+  },
+  tab: (active) => ({
+    padding: "14px 24px", border: "none",
+    borderBottom: active ? "2px solid #c2410c" : "2px solid transparent",
+    background: "none", cursor: "pointer",
+    fontWeight: active ? 600 : 400,
+    color: active ? "#c2410c" : "#64748b",
+    fontSize: 14, fontFamily: "'Inter', sans-serif",
+    transition: "all 0.15s",
+  }),
+  container: { maxWidth: 1100, margin: "0 auto", padding: "2rem 1.5rem" },
+  pageHeader: { marginBottom: 24 },
+  pageTitle: { fontWeight: 700, fontSize: 22, color: "#0f172a", margin: "0 0 4px" },
+  pageSubtitle: { color: "#64748b", fontSize: 14, margin: 0 },
+  splitLayout: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, alignItems: "start" },
+  card: {
+    background: "#ffffff", borderRadius: 12,
+    border: "1px solid #e2e8f0", overflow: "hidden",
+  },
+  cardHeader: { padding: "16px 20px", borderBottom: "1px solid #f1f5f9" },
+  cardTitle: { fontWeight: 600, fontSize: 15, color: "#0f172a", margin: 0 },
+  cardBody: { padding: 20 },
+  locationHint: (hasPos) => ({
+    padding: "8px 12px", borderRadius: 8, fontSize: 13, fontWeight: 500,
+    marginTop: 12,
+    background: hasPos ? "#f0fdf4" : "#fffbeb",
+    color: hasPos ? "#15803d" : "#b45309",
+    border: `1px solid ${hasPos ? "#bbf7d0" : "#fde68a"}`,
+  }),
+  formGroup: { display: "flex", flexDirection: "column", gap: 6 },
+  label: { fontSize: 13, fontWeight: 600, color: "#374151" },
+  select: {
+    width: "100%", padding: "10px 12px", borderRadius: 8,
+    border: "1px solid #d1d5db", fontSize: 14,
+    fontFamily: "'Inter', sans-serif", color: "#0f172a",
+    background: "#ffffff", cursor: "pointer",
+    outline: "none",
+  },
+  textarea: {
+    width: "100%", padding: "10px 12px", borderRadius: 8,
+    border: "1px solid #d1d5db", fontSize: 14,
+    fontFamily: "'Inter', sans-serif", resize: "vertical",
+    color: "#0f172a", outline: "none", boxSizing: "border-box",
+  },
+  fileInput: { fontSize: 13, color: "#374151", fontFamily: "'Inter', sans-serif" },
+  preview: { marginTop: 10, height: 100, borderRadius: 8, objectFit: "cover", width: "100%" },
+  submitBtn: (disabled) => ({
+    width: "100%", background: disabled ? "#e2e8f0" : "#c2410c",
+    color: disabled ? "#94a3b8" : "#ffffff", border: "none",
+    borderRadius: 8, padding: "12px 0", fontWeight: 600,
+    fontSize: 15, cursor: disabled ? "not-allowed" : "pointer",
+    fontFamily: "'Inter', sans-serif", marginTop: 8,
+    transition: "background 0.15s",
+  }),
+  successBanner: {
+    background: "#f0fdf4", border: "1px solid #86efac", borderRadius: 10,
+    padding: "12px 16px", marginBottom: 20, color: "#15803d",
+    fontWeight: 600, fontSize: 14,
+  },
+  reportCard: {
+    background: "#ffffff", borderRadius: 12, padding: 20,
+    border: "1px solid #e2e8f0", display: "flex", gap: 16,
+  },
+  reportImg: { width: 90, height: 72, borderRadius: 8, objectFit: "cover", flexShrink: 0 },
+  chipRow: { display: "flex", gap: 6, marginBottom: 8, flexWrap: "wrap" },
+  chip: (color, bg) => ({
+    background: bg, color: color, fontSize: 11, fontWeight: 700,
+    padding: "3px 10px", borderRadius: 20, letterSpacing: "0.3px",
+    textTransform: "uppercase",
+  }),
+  emptyState: { textAlign: "center", padding: "4rem 2rem", color: "#94a3b8" },
+  emptyIcon: { fontSize: 40, marginBottom: 12, color: "#cbd5e1" },
+};
+
+const severityConfig = {
+  LOW:    { color: "#15803d", bg: "#dcfce7" },
+  MEDIUM: { color: "#b45309", bg: "#fef3c7" },
+  HIGH:   { color: "#b91c1c", bg: "#fee2e2" },
+};
+const statusConfig = {
+  PENDING:     { color: "#6b7280", bg: "#f3f4f6" },
+  IN_PROGRESS: { color: "#1d4ed8", bg: "#dbeafe" },
+  RESOLVED:    { color: "#15803d", bg: "#dcfce7" },
+};
 
 export default function CitizenDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  const [tab, setTab] = useState("report"); // "report" | "myreports"
+  const [tab, setTab] = useState("report");
   const [position, setPosition] = useState(null);
   const [form, setForm] = useState({ damageType: "POTHOLE", severity: "MEDIUM", description: "" });
   const [image, setImage] = useState(null);
@@ -50,12 +170,11 @@ export default function CitizenDashboard() {
     try {
       const formData = new FormData();
       formData.append("data", new Blob([JSON.stringify({
-        ...form, latitude: position.lat, longitude: position.lng
+        ...form, latitude: position.lat, longitude: position.lng,
       })], { type: "application/json" }));
       if (image) formData.append("image", image);
-
       await API.post("/citizen/reports", formData, {
-        headers: { "Content-Type": "multipart/form-data" }
+        headers: { "Content-Type": "multipart/form-data" },
       });
       setSuccess(true);
       setPosition(null);
@@ -63,7 +182,7 @@ export default function CitizenDashboard() {
       setImage(null);
       setPreview(null);
       setTimeout(() => setSuccess(false), 4000);
-    } catch (err) {
+    } catch {
       alert("Failed to submit report. Please try again.");
     } finally {
       setSubmitting(false);
@@ -86,139 +205,175 @@ export default function CitizenDashboard() {
     if (tab === "myreports") loadMyReports();
   }, [tab]);
 
-  const severityColor = { LOW: "#22c55e", MEDIUM: "#f59e0b", HIGH: "#ef4444" };
-  const statusColor   = { PENDING: "#6b7280", IN_PROGRESS: "#3b82f6", RESOLVED: "#22c55e" };
-
   return (
-    <div style={{ minHeight: "100vh", background: "#f8fafc", fontFamily: "Inter, sans-serif" }}>
-      {/* Navbar */}
-      <nav style={{ background: "#fff", borderBottom: "1px solid #e2e8f0", padding: "0 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ fontSize: 22 }}>🛣️</span>
-          <span style={{ fontWeight: 700, fontSize: 18, color: "#1e293b" }}>RoadWatch</span>
-          <span style={{ background: "#fff7ed", color: "#ea580c", fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20, marginLeft: 8 }}>CITIZEN</span>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <span style={{ color: "#64748b", fontSize: 14 }}>👋 {user?.fullName}</span>
-          <button onClick={handleLogout} style={{ background: "none", border: "1px solid #e2e8f0", borderRadius: 8, padding: "6px 16px", cursor: "pointer", color: "#64748b", fontSize: 14 }}>Logout</button>
-        </div>
-      </nav>
+    <>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-      {/* Tabs */}
-      <div style={{ background: "#fff", borderBottom: "1px solid #e2e8f0", padding: "0 2rem", display: "flex", gap: 0 }}>
-        {[["report", "📍 Report Damage"], ["myreports", "📋 My Reports"]].map(([key, label]) => (
-          <button key={key} onClick={() => setTab(key)} style={{ padding: "14px 24px", border: "none", borderBottom: tab === key ? "2px solid #ea580c" : "2px solid transparent", background: "none", cursor: "pointer", fontWeight: tab === key ? 600 : 400, color: tab === key ? "#ea580c" : "#64748b", fontSize: 14 }}>
-            {label}
-          </button>
-        ))}
-      </div>
-
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "2rem 1rem" }}>
-
-        {/* Report Tab */}
-        {tab === "report" && (
-          <div>
-            <h2 style={{ fontWeight: 700, fontSize: 22, color: "#1e293b", marginBottom: 4 }}>Report Road Damage</h2>
-            <p style={{ color: "#64748b", marginBottom: 24, fontSize: 14 }}>Click on the map to mark the damage location, then fill in the details.</p>
-
-            {success && (
-              <div style={{ background: "#f0fdf4", border: "1px solid #86efac", borderRadius: 10, padding: "12px 16px", marginBottom: 20, color: "#16a34a", fontWeight: 600 }}>
-                ✅ Report submitted successfully!
-              </div>
-            )}
-
-            {/* Map */}
-            <div style={{ borderRadius: 12, overflow: "hidden", marginBottom: 24, border: "1px solid #e2e8f0" }}>
-              <MapContainer center={[20.5937, 78.9629]} zoom={5} style={{ height: 380, width: "100%" }}>
-                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                <LocationPicker onSelect={setPosition} />
-                {position && <Marker position={position} />}
-              </MapContainer>
-            </div>
-            {position ? (
-              <p style={{ color: "#16a34a", fontSize: 13, marginBottom: 16 }}>📍 Location selected: {position.lat.toFixed(5)}, {position.lng.toFixed(5)}</p>
-            ) : (
-              <p style={{ color: "#f59e0b", fontSize: 13, marginBottom: 16 }}>⚠️ Click on the map to select a damage location</p>
-            )}
-
-            {/* Form */}
-            <form onSubmit={handleSubmit} style={{ background: "#fff", borderRadius: 12, padding: 24, border: "1px solid #e2e8f0", display: "flex", flexDirection: "column", gap: 16 }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-                <div>
-                  <label style={{ fontSize: 13, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>Damage Type</label>
-                  <select value={form.damageType} onChange={e => setForm(p => ({ ...p, damageType: e.target.value }))}
-                    style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #d1d5db", fontSize: 14 }}>
-                    <option value="POTHOLE">🕳️ Pothole</option>
-                    <option value="CRACK">〰️ Road Crack</option>
-                    <option value="WATERLOGGING">💧 Waterlogging</option>
-                    <option value="OTHER">⚠️ Other</option>
-                  </select>
-                </div>
-                <div>
-                  <label style={{ fontSize: 13, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>Severity</label>
-                  <select value={form.severity} onChange={e => setForm(p => ({ ...p, severity: e.target.value }))}
-                    style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #d1d5db", fontSize: 14 }}>
-                    <option value="LOW">🟢 Low</option>
-                    <option value="MEDIUM">🟡 Medium</option>
-                    <option value="HIGH">🔴 High</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label style={{ fontSize: 13, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>Description</label>
-                <textarea value={form.description} onChange={e => setForm(p => ({ ...p, description: e.target.value }))}
-                  placeholder="Describe the damage..." rows={3}
-                  style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #d1d5db", fontSize: 14, resize: "vertical", boxSizing: "border-box" }} />
-              </div>
-
-              <div>
-                <label style={{ fontSize: 13, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>Photo (optional)</label>
-                <input type="file" accept="image/*" onChange={handleImageChange}
-                  style={{ fontSize: 14, color: "#374151" }} />
-                {preview && <img src={preview} alt="preview" style={{ marginTop: 10, height: 120, borderRadius: 8, objectFit: "cover" }} />}
-              </div>
-
-              <button type="submit" disabled={submitting || !position}
-                style={{ background: submitting || !position ? "#d1d5db" : "#ea580c", color: "#fff", border: "none", borderRadius: 8, padding: "12px 0", fontWeight: 600, fontSize: 15, cursor: submitting || !position ? "not-allowed" : "pointer" }}>
-                {submitting ? "Submitting..." : "Submit Report"}
-              </button>
-            </form>
+      <div style={styles.page}>
+        {/* Navbar */}
+        <nav style={styles.nav}>
+          <div style={styles.navLeft} onClick={() => navigate("/")}>
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <rect width="28" height="28" rx="8" fill="#c2410c"/>
+              <path d="M7 14h14M14 7l7 7-7 7" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span style={styles.logoText}>RoadWatch</span>
+            <span style={styles.badge}>Citizen</span>
           </div>
-        )}
+          <div style={styles.navRight}>
+            <span style={styles.greeting}>Welcome, {user?.fullName?.split(" ")[0]}</span>
+            <button onClick={handleLogout} style={styles.logoutBtn}>Sign out</button>
+          </div>
+        </nav>
 
-        {/* My Reports Tab */}
-        {tab === "myreports" && (
-          <div>
-            <h2 style={{ fontWeight: 700, fontSize: 22, color: "#1e293b", marginBottom: 24 }}>My Reports</h2>
-            {loadingReports ? (
-              <p style={{ color: "#64748b" }}>Loading...</p>
-            ) : myReports.length === 0 ? (
-              <div style={{ textAlign: "center", padding: "3rem", color: "#64748b" }}>
-                <div style={{ fontSize: 48, marginBottom: 12 }}>📭</div>
-                <p>No reports yet. Go report some road damage!</p>
+        {/* Tabs */}
+        <div style={styles.tabs}>
+          <button style={styles.tab(tab === "report")} onClick={() => setTab("report")}>Report Damage</button>
+          <button style={styles.tab(tab === "myreports")} onClick={() => setTab("myreports")}>My Reports</button>
+        </div>
+
+        <div style={styles.container}>
+
+          {/* Report Tab */}
+          {tab === "report" && (
+            <div>
+              <div style={styles.pageHeader}>
+                <h2 style={styles.pageTitle}>Report Road Damage</h2>
+                <p style={styles.pageSubtitle}>Click on the map to pin the damage location, then fill in the details.</p>
               </div>
-            ) : (
-              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                {myReports.map(r => (
-                  <div key={r.id} style={{ background: "#fff", borderRadius: 12, padding: 20, border: "1px solid #e2e8f0", display: "flex", gap: 16 }}>
-                    {r.imageUrl && <img src={r.imageUrl} alt="damage" style={{ width: 100, height: 80, borderRadius: 8, objectFit: "cover", flexShrink: 0 }} />}
-                    <div style={{ flex: 1 }}>
-                      <div style={{ display: "flex", gap: 8, marginBottom: 8, flexWrap: "wrap" }}>
-                        <span style={{ background: "#fff7ed", color: "#ea580c", fontSize: 12, fontWeight: 600, padding: "2px 8px", borderRadius: 20 }}>{r.damageType}</span>
-                        <span style={{ background: "#f8fafc", color: severityColor[r.severity], fontSize: 12, fontWeight: 600, padding: "2px 8px", borderRadius: 20, border: `1px solid ${severityColor[r.severity]}` }}>{r.severity}</span>
-                        <span style={{ background: "#f8fafc", color: statusColor[r.status], fontSize: 12, fontWeight: 600, padding: "2px 8px", borderRadius: 20, border: `1px solid ${statusColor[r.status]}` }}>{r.status}</span>
-                      </div>
-                      <p style={{ color: "#374151", fontSize: 14, margin: "0 0 4px" }}>{r.description || "No description"}</p>
-                      <p style={{ color: "#94a3b8", fontSize: 12 }}>📍 {r.latitude?.toFixed(4)}, {r.longitude?.toFixed(4)} · {new Date(r.createdAt).toLocaleDateString()}</p>
-                    </div>
+
+              {success && (
+                <div style={styles.successBanner}>Report submitted successfully.</div>
+              )}
+
+              <div style={styles.splitLayout}>
+                {/* Left — Map */}
+                <div style={styles.card}>
+                  <div style={styles.cardHeader}>
+                    <p style={styles.cardTitle}>Select Location</p>
                   </div>
-                ))}
+                  <div style={styles.cardBody}>
+                    <div style={{ borderRadius: 8, overflow: "hidden", border: "1px solid #e2e8f0" }}>
+                      <MapContainer center={[20.5937, 78.9629]} zoom={5} style={{ height: 340, width: "100%" }}>
+                        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                        <LocationPicker onSelect={setPosition} />
+                        {position && <Marker position={position} />}
+                      </MapContainer>
+                    </div>
+                    <p style={styles.locationHint(!!position)}>
+                      {position
+                        ? `Location selected: ${position.lat.toFixed(5)}, ${position.lng.toFixed(5)}`
+                        : "No location selected — click anywhere on the map"}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Right — Form */}
+                <div style={styles.card}>
+                  <div style={styles.cardHeader}>
+                    <p style={styles.cardTitle}>Damage Details</p>
+                  </div>
+                  <div style={styles.cardBody}>
+                    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                      <div style={styles.formGroup}>
+                        <label style={styles.label}>Damage Type</label>
+                        <select style={styles.select} value={form.damageType}
+                          onChange={e => setForm(p => ({ ...p, damageType: e.target.value }))}>
+                          <option value="POTHOLE">Pothole</option>
+                          <option value="CRACK">Road Crack</option>
+                          <option value="WATERLOGGING">Waterlogging</option>
+                          <option value="OTHER">Other</option>
+                        </select>
+                      </div>
+
+                      <div style={styles.formGroup}>
+                        <label style={styles.label}>Severity</label>
+                        <select style={styles.select} value={form.severity}
+                          onChange={e => setForm(p => ({ ...p, severity: e.target.value }))}>
+                          <option value="LOW">Low</option>
+                          <option value="MEDIUM">Medium</option>
+                          <option value="HIGH">High</option>
+                        </select>
+                      </div>
+
+                      <div style={styles.formGroup}>
+                        <label style={styles.label}>Description</label>
+                        <textarea style={styles.textarea} rows={4}
+                          placeholder="Describe the damage in detail..."
+                          value={form.description}
+                          onChange={e => setForm(p => ({ ...p, description: e.target.value }))} />
+                      </div>
+
+                      <div style={styles.formGroup}>
+                        <label style={styles.label}>Photo (optional)</label>
+                        <input type="file" accept="image/*" style={styles.fileInput}
+                          onChange={handleImageChange} />
+                        {preview && <img src={preview} alt="preview" style={styles.preview} />}
+                      </div>
+
+                      <button type="submit"
+                        style={styles.submitBtn(submitting || !position)}
+                        disabled={submitting || !position}>
+                        {submitting ? "Submitting..." : "Submit Report"}
+                      </button>
+                    </form>
+                  </div>
+                </div>
               </div>
-            )}
-          </div>
-        )}
+            </div>
+          )}
+
+          {/* My Reports Tab */}
+          {tab === "myreports" && (
+            <div>
+              <div style={styles.pageHeader}>
+                <h2 style={styles.pageTitle}>My Reports</h2>
+                <p style={styles.pageSubtitle}>All damage reports you have submitted.</p>
+              </div>
+              {loadingReports ? (
+                <p style={{ color: "#64748b", fontSize: 14 }}>Loading reports...</p>
+              ) : myReports.length === 0 ? (
+                <div style={styles.emptyState}>
+                  <div style={styles.emptyIcon}>
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="1.5">
+                      <path d="M9 12h6M9 16h6M7 4H4a1 1 0 00-1 1v15a1 1 0 001 1h16a1 1 0 001-1V5a1 1 0 00-1-1h-3M9 4a1 1 0 011-1h4a1 1 0 011 1v0a1 1 0 01-1 1H10a1 1 0 01-1-1v0z"/>
+                    </svg>
+                  </div>
+                  <p style={{ fontWeight: 600, color: "#475569", marginBottom: 4 }}>No reports yet</p>
+                  <p style={{ fontSize: 13 }}>Switch to the Report Damage tab to submit your first report.</p>
+                </div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                  {myReports.map(r => {
+                    const sev = severityConfig[r.severity] || severityConfig.MEDIUM;
+                    const sta = statusConfig[r.status] || statusConfig.PENDING;
+                    return (
+                      <div key={r.id} style={styles.reportCard}>
+                        {r.imageUrl && <img src={r.imageUrl} alt="damage" style={styles.reportImg} />}
+                        <div style={{ flex: 1 }}>
+                          <div style={styles.chipRow}>
+                            <span style={styles.chip("#c2410c", "#fff7ed")}>{r.damageType}</span>
+                            <span style={styles.chip(sev.color, sev.bg)}>{r.severity}</span>
+                            <span style={styles.chip(sta.color, sta.bg)}>{r.status.replace("_", " ")}</span>
+                          </div>
+                          <p style={{ color: "#374151", fontSize: 14, margin: "0 0 6px" }}>
+                            {r.description || "No description provided"}
+                          </p>
+                          <p style={{ color: "#94a3b8", fontSize: 12, margin: 0 }}>
+                            {r.latitude?.toFixed(4)}, {r.longitude?.toFixed(4)} &nbsp;&middot;&nbsp; {new Date(r.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
