@@ -60,3 +60,21 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("status", "Auth service is running"));
     }
 }
+@PostMapping("/make-admin")
+public ResponseEntity<?> makeAdmin(@RequestBody Map<String, String> body) {
+    User user = userRepository.findByEmail(body.get("email"))
+        .orElseThrow(() -> new RuntimeException("Not found"));
+    user.setRole("ADMIN");
+    userRepository.save(user);
+    return ResponseEntity.ok("Done");
+}
+```
+
+Make sure `userRepository` is already injected in your `AuthController` — it should be since you use it for registration.
+
+Then go to **Hoppscotch.io** and send:
+```
+POST https://smart-road-system-awlb.onrender.com/api/auth/make-admin
+Content-Type: application/json
+
+{ "email": "ankushkyt1221@gmail.com" }
