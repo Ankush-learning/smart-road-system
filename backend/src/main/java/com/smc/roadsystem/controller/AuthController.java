@@ -50,7 +50,7 @@ public class AuthController {
     public ResponseEntity<?> makeAdmin(@RequestBody Map<String, String> body) {
         User user = userRepository.findByEmail(body.get("email"))
             .orElseThrow(() -> new RuntimeException("Not found"));
-        user.setRole("ADMIN");
+       user.setRole(com.smc.roadsystem.entity.Role.ADMIN);
         userRepository.save(user);
         return ResponseEntity.ok("Done");
     }
