@@ -14,7 +14,7 @@ export default function Landing() {
               <rect width="28" height="28" rx="8" fill="#c2410c"/>
               <path d="M7 14h14M14 7l7 7-7 7" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            <span style={{ fontWeight: 700, fontSize: 18, color: "#0f172a", letterSpacing: "-0.3px" }}>RoadWatch</span>
+            <span style={{ fontWeight: 700, fontSize: 18, color: "#0f172a", letterSpacing: "-0.3px" }}>EnviroTrack</span>
           </div>
           <div style={{ display: "flex", gap: 12 }}>
             <button onClick={() => navigate("/login")} style={{ background: "none", border: "1px solid #e2e8f0", borderRadius: 8, padding: "8px 20px", cursor: "pointer", fontSize: 14, fontWeight: 500, color: "#374151", fontFamily: "'Inter', sans-serif" }}>Sign In</button>
@@ -62,7 +62,7 @@ export default function Landing() {
           </div>
         </section>
         <footer style={{ padding: "2rem 2.5rem", borderTop: "1px solid #f1f5f9", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span style={{ fontWeight: 600, fontSize: 14, color: "#0f172a" }}>RoadWatch</span>
+          <span style={{ fontWeight: 600, fontSize: 14, color: "#0f172a" }}>EnviroTrack</span>
           <span style={{ fontSize: 13, color: "#94a3b8" }}>Built for smarter cities</span>
         </footer>
       </div>
